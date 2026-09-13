@@ -1,0 +1,5023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INKORA Tools</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  background:#070714;
+  color:white;
+}
+
+body{
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(255,0,128,.20),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(0,200,255,.18),transparent 30%),
+    radial-gradient(circle at 50% 90%,rgba(120,0,255,.18),transparent 35%),
+    #070714;
+}
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.bg-orb{
+  position:fixed;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.25;
+  pointer-events:none;
+  animation:floatOrb 7s ease-in-out infinite alternate;
+}
+
+.orb1{
+  background:#ff0080;
+  top:5%;
+  left:-50px;
+}
+
+.orb2{
+  background:#00d9ff;
+  right:-50px;
+  top:40%;
+  animation-delay:2s;
+}
+
+.orb3{
+  background:#8a2be2;
+  left:35%;
+  bottom:-80px;
+  animation-delay:4s;
+}
+
+@keyframes floatOrb{
+  from{
+    transform:translateY(-20px) scale(1);
+  }
+  to{
+    transform:translateY(30px) scale(1.15);
+  }
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.page{
+  min-height:100vh;
+  padding:25px 15px;
+  position:relative;
+  z-index:2;
+}
+
+.logo{
+  text-align:center;
+  font-size:35px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin:12px 0 5px;
+  background:linear-gradient(90deg,#ff1493,#00e5ff,#a855f7);
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:logoGlow 2s infinite alternate;
+}
+
+@keyframes logoGlow{
+  from{
+    filter:drop-shadow(0 0 3px #ff1493);
+  }
+  to{
+    filter:drop-shadow(0 0 15px #00e5ff);
+  }
+}
+
+.subtitle{
+  text-align:center;
+  color:#bdbddd;
+  margin-bottom:22px;
+}
+
+.auth-card{
+  max-width:430px;
+  margin:20px auto;
+  padding:25px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:25px;
+  background:rgba(15,15,35,.82);
+  backdrop-filter:blur(15px);
+  box-shadow:0 0 35px rgba(0,0,0,.35);
+  animation:cardIn .5s ease;
+}
+
+@keyframes cardIn{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.auth-card h2{
+  text-align:center;
+  margin-bottom:18px;
+}
+
+.field{
+  margin-bottom:13px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:6px;
+  color:#d9d9ef;
+  font-size:14px;
+}
+
+input,textarea{
+  width:100%;
+  border:none;
+  outline:none;
+  color:white;
+  background:#111126;
+  border:1px solid #29294a;
+  border-radius:13px;
+  padding:13px;
+  transition:.2s;
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+input:focus,textarea:focus{
+  border-color:#00e5ff;
+  box-shadow:0 0 12px rgba(0,229,255,.18);
+}
+
+.main-btn{
+  width:100%;
+  border:none;
+  padding:14px;
+  border-radius:14px;
+  color:white;
+  font-weight:bold;
+  background:linear-gradient(90deg,#ff0080,#7928ca,#00c6ff);
+  box-shadow:0 0 18px rgba(255,0,128,.22);
+  transition:.2s;
+  margin-top:5px;
+}
+
+.main-btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.15);
+}
+
+.owner-main-btn{
+  background:linear-gradient(90deg,#ffb300,#ff0080,#8b2be2);
+}
+
+.switch{
+  text-align:center;
+  margin-top:15px;
+  color:#aaaac5;
+}
+
+.switch span{
+  color:#00e5ff;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.message{
+  text-align:center;
+  margin-top:12px;
+  min-height:20px;
+  color:#ff8bbd;
+  font-size:14px;
+}
+
+.auth-divider{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#6f6f8d;
+  margin:20px 0;
+  font-size:12px;
+}
+
+.auth-divider:before,
+.auth-divider:after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:#29294a;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+  max-width:1100px;
+  margin:0 auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.small-logo{
+  font-size:24px;
+  font-weight:900;
+  background:linear-gradient(90deg,#ff1493,#00e5ff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.mini-btn{
+  border:1px solid #33335b;
+  background:#111126;
+  color:white;
+  padding:9px 12px;
+  border-radius:11px;
+  transition:.2s;
+}
+
+.mini-btn:hover{
+  border-color:#00e5ff;
+  transform:translateY(-2px);
+}
+
+.credit-box{
+  padding:9px 13px;
+  border-radius:11px;
+  background:linear-gradient(90deg,#29134d,#102c46);
+  border:1px solid #55318a;
+  color:#ffd95c;
+  font-weight:bold;
+}
+
+/* =========================
+   HOME
+========================= */
+
+.container{
+  max-width:1100px;
+  margin:auto;
+}
+
+.welcome{
+  text-align:center;
+  margin:10px 0 25px;
+}
+
+.welcome h1{
+  font-size:30px;
+  margin-bottom:6px;
+}
+
+.welcome p{
+  color:#aaaac5;
+}
+
+.bonus-card{
+  padding:15px;
+  border-radius:18px;
+  background:linear-gradient(
+    90deg,
+    rgba(255,0,128,.14),
+    rgba(0,229,255,.10)
+  );
+  border:1px solid rgba(255,255,255,.12);
+  margin-bottom:22px;
+  text-align:center;
+}
+
+.control-card{
+  padding:15px;
+  border-radius:18px;
+  background:rgba(17,17,40,.82);
+  border:1px solid rgba(255,255,255,.12);
+  margin-bottom:22px;
+}
+
+.control-card h3{
+  margin-bottom:10px;
+}
+
+.control-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.tool-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.tool-card{
+  padding:22px;
+  border-radius:22px;
+  background:rgba(17,17,40,.82);
+  border:1px solid rgba(255,255,255,.12);
+  min-height:190px;
+  transition:.25s;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+
+.tool-card:before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  right:-50px;
+  top:-50px;
+  border-radius:50%;
+  background:#00e5ff;
+  opacity:.09;
+}
+
+.tool-card:hover{
+  transform:translateY(-7px);
+  border-color:#00e5ff;
+  box-shadow:0 10px 35px rgba(0,229,255,.12);
+}
+
+.tool-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.tool-card h3{
+  margin-bottom:8px;
+}
+
+.tool-card p{
+  color:#a8a8c2;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.cost{
+  display:inline-block;
+  margin-top:14px;
+  padding:6px 10px;
+  border-radius:20px;
+  background:#242447;
+  color:#ffd45c;
+  font-size:12px;
+}
+
+.free-tag{
+  color:#00ffae;
+}
+
+/* =========================
+   TOOL PAGE
+========================= */
+
+.tool-page{
+  max-width:900px;
+  margin:auto;
+  animation:pageIn .4s ease;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateX(25px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.tool-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.tool-head h1{
+  font-size:27px;
+}
+
+.back-btn{
+  border:1px solid #36365e;
+  background:#12122a;
+  color:white;
+  border-radius:12px;
+  padding:10px 13px;
+}
+
+.panel{
+  background:rgba(15,15,35,.88);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 10px 40px rgba(0,0,0,.22);
+}
+
+.options{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:13px 0;
+}
+
+.option{
+  flex:1;
+  min-width:130px;
+}
+
+.option label{
+  display:block;
+  font-size:13px;
+  color:#aaaac5;
+  margin-bottom:6px;
+}
+
+.select{
+  width:100%;
+  padding:11px;
+  border-radius:12px;
+  border:1px solid #2e2e51;
+  background:#111126;
+  color:white;
+  outline:none;
+}
+
+.generate-btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:14px;
+  color:white;
+  font-weight:900;
+  background:linear-gradient(90deg,#ff0080,#8b2be2,#00d9ff);
+  margin-top:5px;
+  transition:.2s;
+}
+
+.generate-btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.1);
+}
+
+.results{
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+.result-card{
+  background:#111126;
+  border:1px solid #29294a;
+  border-radius:15px;
+  padding:13px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  animation:resultIn .35s ease both;
+}
+
+@keyframes resultIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.result-text{
+  flex:1;
+  line-height:1.5;
+  word-break:break-word;
+  white-space:pre-wrap;
+}
+
+.copy-btn{
+  flex-shrink:0;
+  border:1px solid #3b3b63;
+  background:#1b1b39;
+  color:white;
+  border-radius:9px;
+  padding:7px 10px;
+}
+
+.copy-btn.copied{
+  animation:copyPop .35s ease;
+  border-color:#00ff9d;
+}
+
+@keyframes copyPop{
+  50%{
+    transform:scale(1.15);
+  }
+}
+
+.warning{
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,50,100,.10);
+  border:1px solid rgba(255,50,100,.25);
+  color:#ff9ab5;
+  margin-top:12px;
+  display:none;
+}
+
+.music-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:12px 0;
+  padding:11px;
+  border-radius:12px;
+  background:#101025;
+}
+
+.toggle{
+  appearance:none;
+  width:45px;
+  height:24px;
+  border-radius:20px;
+  background:#33334e;
+  position:relative;
+  cursor:pointer;
+}
+
+.toggle:checked{
+  background:#00b894;
+}
+
+.toggle:before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:white;
+  top:3px;
+  left:3px;
+  transition:.2s;
+}
+
+.toggle:checked:before{
+  left:24px;
+}
+
+/* =========================
+   OWNER
+========================= */
+
+.owner-banner{
+  max-width:1100px;
+  margin:0 auto 20px;
+  padding:14px;
+  border-radius:16px;
+  background:linear-gradient(
+    90deg,
+    rgba(255,215,0,.15),
+    rgba(255,0,128,.10)
+  );
+  border:1px solid rgba(255,215,0,.25);
+  text-align:center;
+  color:#ffe477;
+  font-weight:bold;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.stat{
+  padding:18px;
+  border-radius:17px;
+  background:#111126;
+  border:1px solid #29294a;
+  text-align:center;
+}
+
+.stat b{
+  display:block;
+  font-size:27px;
+  margin-top:6px;
+  color:#00e5ff;
+}
+
+.owner-search{
+  margin:15px 0;
+}
+
+.owner-user{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px;
+  border-radius:15px;
+  background:#111126;
+  border:1px solid #29294a;
+  margin-top:10px;
+  flex-wrap:wrap;
+  animation:resultIn .25s ease;
+}
+
+.owner-user-info{
+  flex:1;
+  min-width:190px;
+}
+
+.owner-user-info small{
+  display:block;
+  color:#8e8ea8;
+  margin-top:4px;
+}
+
+.owner-controls{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.danger-btn,
+.green-btn,
+.gold-btn{
+  border:0;
+  padding:8px 10px;
+  border-radius:9px;
+  color:white;
+  font-weight:bold;
+}
+
+.danger-btn{
+  background:#a51d48;
+}
+
+.green-btn{
+  background:#087f62;
+}
+
+.gold-btn{
+  background:#906d00;
+}
+
+.owner-note{
+  color:#aaaac5;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:15px;
+}
+
+.status-active{
+  color:#00ffae!important;
+  font-weight:bold;
+}
+
+.status-blocked{
+  color:#ff668d!important;
+  font-weight:bold;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+#toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translate(-50%,20px);
+  background:#17172f;
+  border:1px solid #3b3b67;
+  padding:12px 17px;
+  border-radius:12px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:9999;
+  max-width:90%;
+  text-align:center;
+}
+
+#toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+footer{
+  text-align:center;
+  color:#686883;
+  padding:30px 10px;
+  font-size:13px;
+}
+
+@media(max-width:600px){
+  .logo{
+    font-size:29px;
+  }
+
+  .welcome h1{
+    font-size:25px;
+  }
+
+  .tool-head h1{
+    font-size:22px;
+  }
+
+  .panel{
+    padding:15px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+  }
+
+  .top-actions{
+    width:100%;
+  }
+
+  .top-actions .mini-btn,
+  .credit-box{
+    flex:1;
+    text-align:center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<div id="toast"></div>
+
+<!-- =========================
+     AUTH
+========================= -->
+
+<section id="authPage" class="page">
+
+  <div class="logo">INKORA Tools</div>
+  <div class="subtitle">Create • Generate • Grow 🚀✨</div>
+
+  <!-- SIGNUP -->
+  <div id="signupBox" class="auth-card">
+
+    <h2>✨ Create Account</h2>
+
+    <div class="field">
+      <label>👤 Name</label>
+      <input
+        id="signupName"
+        type="text"
+        placeholder="Your name">
+    </div>
+
+    <div class="field">
+      <label>📧 Email</label>
+      <input
+        id="signupEmail"
+        type="email"
+        placeholder="you@example.com">
+    </div>
+
+    <div class="field">
+      <label>🔑 Password</label>
+      <input
+        id="signupPassword"
+        type="password"
+        placeholder="Create password">
+    </div>
+
+    <div class="field">
+      <label>🔐 Confirm Password</label>
+      <input
+        id="signupConfirm"
+        type="password"
+        placeholder="Confirm password">
+    </div>
+
+    <button class="main-btn" onclick="signup()">
+      🚀 Create Account
+    </button>
+
+    <div id="signupMsg" class="message"></div>
+
+    <div class="switch">
+      Already have an account?
+      <span onclick="showLogin()">Login</span>
+    </div>
+
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginBox" class="auth-card hidden">
+
+    <h2>🔐 Login</h2>
+
+    <div class="field">
+      <label>📧 Email</label>
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="you@example.com">
+    </div>
+
+    <div class="field">
+      <label>🔑 Password</label>
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Your password">
+    </div>
+
+    <button class="main-btn" onclick="login()">
+      🔓 Login
+    </button>
+
+    <div id="loginMsg" class="message"></div>
+
+    <div class="switch">
+      New here?
+      <span onclick="showSignup()">Create Account</span>
+    </div>
+
+  </div>
+
+  <!-- OWNER LOGIN DIRECTLY ON AUTH SCREEN -->
+  <div id="ownerAuthBox" class="auth-card">
+
+    <h2>👑 Owner Login</h2>
+
+    <div class="auth-divider">
+      🔥 OWNER POWER 🔥
+    </div>
+
+    <div class="field">
+      <label>👑 Owner Email</label>
+      <input
+        id="ownerAuthEmail"
+        type="email"
+        placeholder="Owner email">
+    </div>
+
+    <div class="field">
+      <label>🔐 Owner Password</label>
+      <input
+        id="ownerAuthPassword"
+        type="password"
+        placeholder="Owner password">
+    </div>
+
+    <button
+      class="main-btn owner-main-btn"
+      onclick="ownerLoginFromAuth()">
+
+      👑 Login as Owner
+    </button>
+
+    <div id="ownerAuthMsg" class="message"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<section id="appPage" class="page hidden">
+
+  <!-- TOP BAR -->
+
+  <div class="topbar">
+
+    <div class="small-logo">
+      INKORA Tools
+    </div>
+
+    <div class="top-actions">
+
+      <div class="credit-box">
+        💳 <span id="creditCount">0</span>
+      </div>
+
+      <button
+        class="mini-btn"
+        onclick="go('home')">
+        🏠 Home
+      </button>
+
+      <button
+        class="mini-btn"
+        onclick="openOwnerRoute()">
+        👑 Owner
+      </button>
+
+      <button
+        class="mini-btn"
+        onclick="toggleSound()">
+        🔊 <span id="soundText">Sound ON</span>
+      </button>
+
+      <button
+        class="mini-btn"
+        onclick="logout()">
+        🚪 Logout
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       HOME
+  ========================= -->
+
+  <div id="homePage" class="view">
+
+    <div class="container">
+
+      <div class="welcome">
+
+        <h1>
+          Welcome,
+          <span id="userName">Creator</span>
+          👋
+        </h1>
+
+        <p>
+          Your creator toolbox is ready 🚀🎨
+        </p>
+
+      </div>
+
+
+      <div class="bonus-card">
+
+        🎁 Daily Bonus:
+        <b>+70 Credits</b>
+
+        <br>
+
+        <small>
+          Claim once every day ⚡
+        </small>
+
+        <br><br>
+
+        <button
+          class="mini-btn"
+          onclick="claimBonus()">
+
+          🎁 Claim Daily Bonus
+
+        </button>
+
+      </div>
+
+
+      <!-- SOUND CONTROLS -->
+
+      <div class="control-card">
+
+        <h3>🎵 INKORA Controls</h3>
+
+        <div class="control-row">
+
+          <span>
+            🔊 Button Sound
+          </span>
+
+          <input
+            id="soundToggle"
+            class="toggle"
+            type="checkbox"
+            checked>
+
+        </div>
+
+        <br>
+
+        <div class="control-row">
+
+          <span>
+            🎶 Generated Background Music
+          </span>
+
+          <input
+            id="musicHomeToggle"
+            class="toggle"
+            type="checkbox"
+            checked>
+
+        </div>
+
+      </div>
+
+
+      <!-- TOOLS -->
+
+      <div class="tool-grid">
+
+        <div
+          class="tool-card"
+          onclick="go('title')">
+
+          <div class="tool-icon">
+            🔥
+          </div>
+
+          <h3>
+            Title Generator
+          </h3>
+
+          <p>
+            Create fresh YouTube titles
+            with many combinations.
+          </p>
+
+          <span class="cost">
+            💳 10 credits → 5 results
+          </span>
+
+        </div>
+
+
+        <div
+          class="tool-card"
+          onclick="go('hashtag')">
+
+          <div class="tool-icon">
+            #️⃣
+          </div>
+
+          <h3>
+            Hashtag Helper
+          </h3>
+
+          <p>
+            Generate useful hashtag
+            sets for your content.
+          </p>
+
+          <span class="cost">
+            💳 10 credits → 5 sets
+          </span>
+
+        </div>
+
+
+        <div
+          class="tool-card"
+          onclick="go('description')">
+
+          <div class="tool-icon">
+            📝
+          </div>
+
+          <h3>
+            Description Generator
+          </h3>
+
+          <p>
+            Create multiple YouTube
+            descriptions quickly.
+          </p>
+
+          <span class="cost">
+            💳 10 credits → 5 results
+          </span>
+
+        </div>
+
+
+        <div
+          class="tool-card"
+          onclick="go('thumbnail')">
+
+          <div class="tool-icon">
+            🖼️
+          </div>
+
+          <h3>
+            Thumbnail Ideas
+          </h3>
+
+          <p>
+            Get clickable thumbnail
+            concepts for your topic.
+          </p>
+
+          <span class="cost free-tag">
+            ✨ FREE
+          </span>
+
+        </div>
+
+
+        <div
+          class="tool-card"
+          onclick="go('seo')">
+
+          <div class="tool-icon">
+            🚀
+          </div>
+
+          <h3>
+            SEO Pro
+          </h3>
+
+          <p>
+            Generate advanced SEO
+            packs for your content.
+          </p>
+
+          <span class="cost">
+            💳 25 credits → 2 packs
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <footer>
+      © INKORA Tools • Create smarter 🚀✨
+    </footer>
+
+  </div>
+
+
+  <!-- =========================
+       TITLE
+  ========================= -->
+
+  <div id="titlePage" class="view hidden">
+
+    <div class="tool-page">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="go('home')">
+          ← Back
+        </button>
+
+        <h1>
+          🔥 Title Generator
+        </h1>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="field">
+
+          <label>
+            🎯 Topic
+          </label>
+
+          <input
+            id="titleTopic"
+            placeholder="Example: Gojo drawing">
+
+        </div>
+
+
+        <div class="options">
+
+          <div class="option">
+
+            <label>
+              🎨 Style
+            </label>
+
+            <select
+              id="titleStyle"
+              class="select">
+
+              <option>Viral</option>
+              <option>Curious</option>
+              <option>Beginner Friendly</option>
+              <option>Challenge</option>
+              <option>Short & Powerful</option>
+
+            </select>
+
+          </div>
+
+
+          <div class="option">
+
+            <label>
+              🌍 Language
+            </label>
+
+            <select
+              id="titleLang"
+              class="select">
+
+              <option>Hinglish</option>
+              <option>English</option>
+              <option>Hindi</option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="music-row">
+
+          <span>
+            🎵 Generated Background Music
+          </span>
+
+          <input
+            id="musicToggle"
+            class="toggle"
+            type="checkbox"
+            checked>
+
+        </div>
+
+
+        <button
+          class="generate-btn"
+          onclick="generateTitles()">
+
+          ⚡ Generate 5 Titles — 10 Credits
+
+        </button>
+
+
+        <div
+          id="titleWarning"
+          class="warning">
+        </div>
+
+        <div
+          id="titleResults"
+          class="results">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       HASHTAG
+  ========================= -->
+
+  <div id="hashtagPage" class="view hidden">
+
+    <div class="tool-page">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="go('home')">
+          ← Back
+        </button>
+
+        <h1>
+          #️⃣ Hashtag Helper
+        </h1>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="field">
+
+          <label>
+            🎯 Topic
+          </label>
+
+          <input
+            id="hashTopic"
+            placeholder="Example: Naruto drawing">
+
+        </div>
+
+
+        <button
+          class="generate-btn"
+          onclick="generateHashtags()">
+
+          ⚡ Generate 5 Sets — 10 Credits
+
+        </button>
+
+
+        <div
+          id="hashWarning"
+          class="warning">
+        </div>
+
+        <div
+          id="hashResults"
+          class="results">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       DESCRIPTION
+  ========================= -->
+
+  <div id="descriptionPage" class="view hidden">
+
+    <div class="tool-page">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="go('home')">
+          ← Back
+        </button>
+
+        <h1>
+          📝 Description Generator
+        </h1>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="field">
+
+          <label>
+            🎯 Video Topic
+          </label>
+
+          <input
+            id="descTopic"
+            placeholder="Example: How to draw anime eyes">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            💡 Extra Details
+          </label>
+
+          <textarea
+            id="descDetails"
+            placeholder="Example: beginner tutorial, pencil drawing..."></textarea>
+
+        </div>
+
+
+        <button
+          class="generate-btn"
+          onclick="generateDescriptions()">
+
+          ⚡ Generate 5 Descriptions — 10 Credits
+
+        </button>
+
+
+        <div
+          id="descWarning"
+          class="warning">
+        </div>
+
+        <div
+          id="descResults"
+          class="results">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       THUMBNAIL
+  ========================= -->
+
+  <div id="thumbnailPage" class="view hidden">
+
+    <div class="tool-page">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="go('home')">
+          ← Back
+        </button>
+
+        <h1>
+          🖼️ Thumbnail Ideas
+        </h1>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="field">
+
+          <label>
+            🎯 Topic
+          </label>
+
+          <input
+            id="thumbTopic"
+            placeholder="Example: Draw Goku in 5 minutes">
+
+        </div>
+
+
+        <button
+          class="generate-btn"
+          onclick="generateThumbnails()">
+
+          ✨ Generate Free Ideas
+
+        </button>
+
+
+        <div
+          id="thumbWarning"
+          class="warning">
+        </div>
+
+        <div
+          id="thumbResults"
+          class="results">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SEO
+  ========================= -->
+
+  <div id="seoPage" class="view hidden">
+
+    <div class="tool-page">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="go('home')">
+          ← Back
+        </button>
+
+        <h1>
+          🚀 SEO Pro
+        </h1>
+
+      </div>
+
+      <div class="panel">
+
+        <div class="field">
+
+          <label>
+            🎯 Main Topic
+          </label>
+
+          <input
+            id="seoTopic"
+            placeholder="Example: Sukuna eye drawing">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            📌 Extra Keyword
+          </label>
+
+          <input
+            id="seoKeyword"
+            placeholder="Example: anime drawing tutorial">
+
+        </div>
+
+
+        <button
+          class="generate-btn"
+          onclick="generateSEO()">
+
+          🚀 Generate 2 SEO Packs — 25 Credits
+
+        </button>
+
+
+        <div
+          id="seoWarning"
+          class="warning">
+        </div>
+
+        <div
+          id="seoResults"
+          class="results">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       OWNER LOGIN PAGE
+  ========================= -->
+
+  <div id="ownerLoginPage" class="view hidden">
+
+    <div class="tool-page">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="go('home')">
+          ← Back
+        </button>
+
+        <h1>
+          👑 Owner Login
+        </h1>
+
+      </div>
+
+
+      <div class="panel">
+
+        <div class="field">
+
+          <label>
+            👑 Owner Email
+          </label>
+
+          <input
+            id="ownerEmail"
+            type="email"
+            placeholder="Owner email">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            🔐 Owner Password
+          </label>
+
+          <input
+            id="ownerPassword"
+            type="password"
+            placeholder="Owner password">
+
+        </div>
+
+
+        <button
+          class="generate-btn"
+          onclick="ownerLogin()">
+
+          👑 Enter Owner Power
+
+        </button>
+
+
+        <div
+          id="ownerLoginMsg"
+          class="message">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       OWNER PANEL
+  ========================= -->
+
+  <div id="ownerPage" class="view hidden">
+
+    <div class="container">
+
+      <div class="tool-head">
+
+        <button
+          class="back-btn"
+          onclick="ownerGoHome()">
+
+          ← Home
+
+        </button>
+
+        <h1>
+          👑 Owner Power
+        </h1>
+
+      </div>
+
+
+      <div class="owner-banner">
+
+        👑 INKORA Tools Owner Panel
+        <br>
+        <small>
+          🔥 Control your users • Credits • Safety
+        </small>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="admin-grid">
+
+        <div class="stat">
+
+          👥 Total Users
+
+          <b id="statUsers">
+            0
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          💳 Total Credits
+
+          <b id="statCredits">
+            0
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          🚫 Blocked Users
+
+          <b id="statBlocked">
+            0
+          </b>
+
+        </div>
+
+
+        <div class="stat">
+
+          🟢 Active Users
+
+          <b id="statActive">
+            0
+          </b>
+
+        </div>
+
+      </div>
+
+
+      <!-- USER MANAGEMENT -->
+
+      <div class="panel">
+
+        <h2>
+          👥 All Users
+        </h2>
+
+        <p
+          style="color:#aaaac5;margin-top:7px">
+
+          🔎 Search and manage your users.
+
+        </p>
+
+
+        <div class="owner-search">
+
+          <input
+            id="ownerUserSearch"
+            type="text"
+            placeholder="🔎 Search user by name or email..."
+            oninput="renderOwnerUsers()">
+
+        </div>
+
+
+        <div id="ownerUsers"></div>
+
+
+        <p class="owner-note">
+
+          ⚠️ Demo Owner Power:
+          users and credits are stored in this browser's
+          localStorage. This is NOT a secure production
+          admin system. Firebase/backend will be needed
+          for real secure accounts.
+
+        </p>
+
+      </div>
+
+
+      <!-- OWNER LOGOUT -->
+
+      <div
+        style="margin-top:15px;text-align:center">
+
+        <button
+          class="danger-btn"
+          onclick="ownerLogout()">
+
+          👑 Logout Owner
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+/* =========================================================
+   INKORA TOOLS
+   Updated Local Demo Version
+========================================================= */
+
+const USERS_KEY = "INKORA_USERS";
+const CURRENT_KEY = "INKORA_CURRENT";
+const OWNER_KEY = "INKORA_OWNER_SESSION";
+const SOUND_KEY = "INKORA_SOUND";
+const MUSIC_KEY = "INKORA_MUSIC";
+
+
+/* OWNER LOGIN */
+
+const OWNER_EMAIL =
+  "inkoratoolspro@gmail.com";
+
+const OWNER_PASSWORD =
+  "owner849891";
+
+
+/* LOAD DATA */
+
+let users =
+  JSON.parse(
+    localStorage.getItem(USERS_KEY) || "{}"
+  );
+
+let currentEmail =
+  localStorage.getItem(CURRENT_KEY) || "";
+
+
+let titleIndex = 0;
+let hashIndex = 0;
+let descIndex = 0;
+let thumbIndex = 0;
+let seoIndex = 0;
+
+
+let audioCtx = null;
+let musicTimer = null;
+
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+function saveUsers(){
+
+  localStorage.setItem(
+    USERS_KEY,
+    JSON.stringify(users)
+  );
+
+}
+
+
+function currentUser(){
+
+  return users[currentEmail];
+
+}
+
+
+function isOwner(){
+
+  return localStorage.getItem(
+    OWNER_KEY
+  ) === "true";
+
+}
+
+
+function updateCredits(){
+
+  const u = currentUser();
+
+  const count =
+    document.getElementById("creditCount");
+
+  const name =
+    document.getElementById("userName");
+
+  if(isOwner() && !u){
+
+    count.textContent = "👑";
+
+    name.textContent = "Owner";
+
+    return;
+
+  }
+
+  count.textContent =
+    u ? Number(u.credits) || 0 : 0;
+
+  if(u){
+
+    name.textContent =
+      u.name || "Creator";
+
+  }
+
+}
+
+
+function toast(text){
+
+  const t =
+    document.getElementById("toast");
+
+  t.textContent = text;
+
+  t.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(()=>{
+
+      t.classList.remove("show");
+
+    },2200);
+
+}
+
+
+function cleanText(value){
+
+  return String(value || "").trim();
+
+}
+
+
+/* =========================================================
+   SOUND
+========================================================= */
+
+let soundEnabled =
+  localStorage.getItem(SOUND_KEY) !== "off";
+
+
+function initSoundUI(){
+
+  const toggle =
+    document.getElementById("soundToggle");
+
+  const text =
+    document.getElementById("soundText");
+
+  if(toggle){
+
+    toggle.checked =
+      soundEnabled;
+
+  }
+
+  if(text){
+
+    text.textContent =
+      soundEnabled
+        ? "Sound ON"
+        : "Sound OFF";
+
+  }
+
+}
+
+
+function toggleSound(){
+
+  soundEnabled =
+    !soundEnabled;
+
+  localStorage.setItem(
+    SOUND_KEY,
+    soundEnabled ? "on" : "off"
+  );
+
+  initSoundUI();
+
+  if(soundEnabled){
+
+    clickSound();
+
+    toast("🔊 Sound ON!");
+
+  }else{
+
+    toast("🔇 Sound OFF!");
+
+  }
+
+}
+
+
+function clickSound(){
+
+  if(!soundEnabled) return;
+
+  try{
+
+    if(!audioCtx){
+
+      audioCtx =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+    }
+
+    if(audioCtx.state === "suspended"){
+
+      audioCtx.resume();
+
+    }
+
+    const osc =
+      audioCtx.createOscillator();
+
+    const gain =
+      audioCtx.createGain();
+
+    osc.frequency.value = 520;
+
+    osc.type = "sine";
+
+    gain.gain.setValueAtTime(
+      .045,
+      audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .001,
+      audioCtx.currentTime + .09
+    );
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+
+    osc.stop(
+      audioCtx.currentTime + .09
+    );
+
+  }catch(e){}
+
+}
+
+
+/* CLICK SOUND */
+
+document.addEventListener(
+  "click",
+  e=>{
+
+    if(
+      e.target.closest(
+        "button,.tool-card,.copy-btn"
+      )
+    ){
+
+      clickSound();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   BACKGROUND MUSIC
+========================================================= */
+
+let musicEnabled =
+  localStorage.getItem(MUSIC_KEY) !== "off";
+
+
+function setMusicState(enabled){
+
+  musicEnabled = enabled;
+
+  localStorage.setItem(
+    MUSIC_KEY,
+    enabled ? "on" : "off"
+  );
+
+  const a =
+    document.getElementById(
+      "musicToggle"
+    );
+
+  const b =
+    document.getElementById(
+      "musicHomeToggle"
+    );
+
+  if(a) a.checked = enabled;
+  if(b) b.checked = enabled;
+
+  if(enabled){
+
+    startMusic();
+
+  }else{
+
+    stopMusic();
+
+  }
+
+}
+
+
+function startMusic(){
+
+  if(!musicEnabled) return;
+
+  if(musicTimer) return;
+
+  try{
+
+    if(!audioCtx){
+
+      audioCtx =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+    }
+
+    if(audioCtx.state === "suspended"){
+
+      audioCtx.resume();
+
+    }
+
+
+    const playNote = ()=>{
+
+      if(!musicEnabled){
+
+        return;
+
+      }
+
+      const osc =
+        audioCtx.createOscillator();
+
+      const gain =
+        audioCtx.createGain();
+
+      osc.type = "triangle";
+
+      osc.frequency.value =
+        220 + Math.random() * 180;
+
+      gain.gain.setValueAtTime(
+        .012,
+        audioCtx.currentTime
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audioCtx.currentTime + .8
+      );
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+
+      osc.stop(
+        audioCtx.currentTime + .8
+      );
+
+    };
+
+
+    playNote();
+
+    musicTimer =
+      setInterval(
+        playNote,
+        1100
+      );
+
+  }catch(e){}
+
+}
+
+
+function stopMusic(){
+
+  if(musicTimer){
+
+    clearInterval(
+      musicTimer
+    );
+
+    musicTimer = null;
+
+  }
+
+}
+
+
+document.addEventListener(
+  "change",
+  e=>{
+
+    if(
+      e.target.id ===
+      "musicToggle"
+    ){
+
+      setMusicState(
+        e.target.checked
+      );
+
+    }
+
+    if(
+      e.target.id ===
+      "musicHomeToggle"
+    ){
+
+      setMusicState(
+        e.target.checked
+      );
+
+    }
+
+    if(
+      e.target.id ===
+      "soundToggle"
+    ){
+
+      soundEnabled =
+        e.target.checked;
+
+      localStorage.setItem(
+        SOUND_KEY,
+        soundEnabled
+          ? "on"
+          : "off"
+      );
+
+      initSoundUI();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function showSignup(){
+
+  document.getElementById(
+    "signupBox"
+  ).classList.remove("hidden");
+
+  document.getElementById(
+    "loginBox"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "signupMsg"
+  ).textContent = "";
+
+  document.getElementById(
+    "loginMsg"
+  ).textContent = "";
+
+}
+
+
+function showLogin(){
+
+  document.getElementById(
+    "signupBox"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "loginBox"
+  ).classList.remove("hidden");
+
+  document.getElementById(
+    "signupMsg"
+  ).textContent = "";
+
+  document.getElementById(
+    "loginMsg"
+  ).textContent = "";
+
+}
+
+
+/* =========================================================
+   SIGNUP
+========================================================= */
+
+function signup(){
+
+  const name =
+    cleanText(
+      document.getElementById(
+        "signupName"
+      ).value
+    );
+
+  const email =
+    cleanText(
+      document.getElementById(
+        "signupEmail"
+      ).value
+    ).toLowerCase();
+
+  const password =
+    document.getElementById(
+      "signupPassword"
+    ).value;
+
+  const confirm =
+    document.getElementById(
+      "signupConfirm"
+    ).value;
+
+  const msg =
+    document.getElementById(
+      "signupMsg"
+    );
+
+
+  if(
+    !name ||
+    !email ||
+    !password ||
+    !confirm
+  ){
+
+    msg.textContent =
+      "⚠️ Please fill everything.";
+
+    return;
+
+  }
+
+
+  if(
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+      email
+    )
+  ){
+
+    msg.textContent =
+      "⚠️ Enter a valid email.";
+
+    return;
+
+  }
+
+
+  if(password.length < 4){
+
+    msg.textContent =
+      "⚠️ Password should be at least 4 characters.";
+
+    return;
+
+  }
+
+
+  if(password !== confirm){
+
+    msg.textContent =
+      "❌ Passwords do not match.";
+
+    return;
+
+  }
+
+
+  if(users[email]){
+
+    msg.textContent =
+      "❌ Account already exists. Please Login.";
+
+    setTimeout(
+      showLogin,
+      900
+    );
+
+    return;
+
+  }
+
+
+  users[email] = {
+
+    name:name,
+
+    email:email,
+
+    password:password,
+
+    credits:150,
+
+    bonus:"",
+
+    blocked:false,
+
+    ti:0,
+
+    hi:0,
+
+    di:0,
+
+    thi:0,
+
+    si:0,
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  saveUsers();
+
+
+  msg.textContent =
+    "✅ Account created! +150 Credits 🎉";
+
+
+  document.getElementById(
+    "loginEmail"
+  ).value = email;
+
+
+  setTimeout(
+    showLogin,
+    900
+  );
+
+}
+
+
+/* =========================================================
+   NORMAL LOGIN
+========================================================= */
+
+function login(){
+
+  const email =
+    cleanText(
+      document.getElementById(
+        "loginEmail"
+      ).value
+    ).toLowerCase();
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
+
+  const msg =
+    document.getElementById(
+      "loginMsg"
+    );
+
+
+  if(!email || !password){
+
+    msg.textContent =
+      "⚠️ Enter email and password.";
+
+    return;
+
+  }
+
+
+  const u =
+    users[email];
+
+
+  if(!u){
+
+    msg.textContent =
+      "❌ Account not found. Please Create Account.";
+
+    setTimeout(
+      showSignup,
+      900
+    );
+
+    return;
+
+  }
+
+
+  if(u.blocked){
+
+    msg.textContent =
+      "🚫 This account is blocked.";
+
+    return;
+
+  }
+
+
+  if(u.password !== password){
+
+    msg.textContent =
+      "❌ Wrong password.";
+
+    return;
+
+  }
+
+
+  currentEmail = email;
+
+  localStorage.setItem(
+    CURRENT_KEY,
+    email
+  );
+
+  openApp();
+
+  toast(
+    "✅ Login successful! 🎉"
+  );
+
+  if(musicEnabled){
+
+    startMusic();
+
+  }
+
+}
+
+
+/* =========================================================
+   OWNER LOGIN FROM AUTH SCREEN
+========================================================= */
+
+function ownerLoginFromAuth(){
+
+  const email =
+    cleanText(
+      document.getElementById(
+        "ownerAuthEmail"
+      ).value
+    ).toLowerCase();
+
+  const password =
+    document.getElementById(
+      "ownerAuthPassword"
+    ).value;
+
+  const msg =
+    document.getElementById(
+      "ownerAuthMsg"
+    );
+
+
+  if(!email || !password){
+
+    msg.textContent =
+      "⚠️ Enter Owner email and password.";
+
+    return;
+
+  }
+
+
+  if(
+    email === OWNER_EMAIL &&
+    password === OWNER_PASSWORD
+  ){
+
+    localStorage.setItem(
+      OWNER_KEY,
+      "true"
+    );
+
+    currentEmail = "";
+
+    localStorage.removeItem(
+      CURRENT_KEY
+    );
+
+    msg.textContent =
+      "👑 Owner verified! Opening Owner Power...";
+
+
+    setTimeout(
+      openOwnerApp,
+      500
+    );
+
+  }else{
+
+    msg.textContent =
+      "❌ Wrong owner login.";
+
+  }
+
+}
+
+
+/* =========================================================
+   NORMAL OWNER LOGIN PAGE
+========================================================= */
+
+function ownerLogin(){
+
+  const email =
+    cleanText(
+      document.getElementById(
+        "ownerEmail"
+      ).value
+    ).toLowerCase();
+
+  const password =
+    document.getElementById(
+      "ownerPassword"
+    ).value;
+
+  const msg =
+    document.getElementById(
+      "ownerLoginMsg"
+    );
+
+
+  if(
+    email === OWNER_EMAIL &&
+    password === OWNER_PASSWORD
+  ){
+
+    localStorage.setItem(
+      OWNER_KEY,
+      "true"
+    );
+
+    currentEmail = "";
+
+    localStorage.removeItem(
+      CURRENT_KEY
+    );
+
+    msg.textContent =
+      "👑 Owner verified!";
+
+
+    setTimeout(
+      openOwnerApp,
+      500
+    );
+
+  }else{
+
+    msg.textContent =
+      "❌ Wrong owner login.";
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout(){
+
+  stopMusic();
+
+  currentEmail = "";
+
+  localStorage.removeItem(
+    CURRENT_KEY
+  );
+
+  localStorage.removeItem(
+    OWNER_KEY
+  );
+
+
+  document.getElementById(
+    "appPage"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "authPage"
+  ).classList.remove("hidden");
+
+
+  showLogin();
+
+  toast(
+    "👋 Logged out."
+  );
+
+}
+
+
+/* =========================================================
+   OPEN NORMAL APP
+========================================================= */
+
+function openApp(){
+
+  const u =
+    currentUser();
+
+
+  if(!u){
+
+    if(isOwner()){
+
+      openOwnerApp();
+
+    }else{
+
+      showAuth();
+
+    }
+
+    return;
+
+  }
+
+
+  if(u.blocked){
+
+    currentEmail = "";
+
+    localStorage.removeItem(
+      CURRENT_KEY
+    );
+
+    showAuth();
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "authPage"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "appPage"
+  ).classList.remove("hidden");
+
+
+  updateCredits();
+
+  go("home");
+
+}
+
+
+/* =========================================================
+   OPEN OWNER APP
+========================================================= */
+
+function openOwnerApp(){
+
+  if(!isOwner()){
+
+    showAuth();
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "authPage"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "appPage"
+  ).classList.remove("hidden");
+
+
+  updateCredits();
+
+  go("owner");
+
+  renderOwner();
+
+  toast(
+    "👑 Owner Power Activated!"
+  );
+
+}
+
+
+/* =========================================================
+   AUTH SHOW
+========================================================= */
+
+function showAuth(){
+
+  document.getElementById(
+    "appPage"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "authPage"
+  ).classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   ROUTING
+========================================================= */
+
+const routes = {
+
+  home:"homePage",
+
+  title:"titlePage",
+
+  hashtag:"hashtagPage",
+
+  description:"descriptionPage",
+
+  thumbnail:"thumbnailPage",
+
+  seo:"seoPage",
+
+  ownerLogin:"ownerLoginPage",
+
+  owner:"ownerPage"
+
+};
+
+
+function go(route){
+
+  const app =
+    document.getElementById(
+      "appPage"
+    );
+
+
+  if(app.classList.contains("hidden")){
+
+    return;
+
+  }
+
+
+  Object.values(routes)
+    .forEach(id=>{
+
+      const el =
+        document.getElementById(id);
+
+      if(el){
+
+        el.classList.add(
+          "hidden"
+        );
+
+      }
+
+    });
+
+
+  const target =
+    document.getElementById(
+      routes[route] ||
+      "homePage"
+    );
+
+
+  if(target){
+
+    target.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+
+  if(route === "owner"){
+
+    if(!isOwner()){
+
+      go("ownerLogin");
+
+      return;
+
+    }
+
+    renderOwner();
+
+  }
+
+}
+
+
+function openOwnerRoute(){
+
+  if(isOwner()){
+
+    go("owner");
+
+  }else{
+
+    go("ownerLogin");
+
+  }
+
+}
+
+
+/* =========================================================
+   OWNER HOME
+========================================================= */
+
+function ownerGoHome(){
+
+  if(isOwner()){
+
+    go("ownerLogin");
+
+    toast(
+      "👑 Owner session active."
+    );
+
+    return;
+
+  }
+
+}
+
+
+/* =========================================================
+   DAILY BONUS
+========================================================= */
+
+function getToday(){
+
+  return new Date()
+    .toISOString()
+    .slice(0,10);
+
+}
+
+
+function claimBonus(){
+
+  const u =
+    currentUser();
+
+
+  if(!u){
+
+    toast(
+      "⚠️ Please Login."
+    );
+
+    return;
+
+  }
+
+
+  if(u.bonus === getToday()){
+
+    toast(
+      "🎁 Daily bonus already claimed today!"
+    );
+
+    return;
+
+  }
+
+
+  u.credits += 70;
+
+  u.bonus =
+    getToday();
+
+
+  saveUsers();
+
+  updateCredits();
+
+
+  toast(
+    "🎉 +70 credits added!"
+  );
+
+}
+
+
+/* =========================================================
+   CLEAN LANGUAGE FILTER
+========================================================= */
+
+/*
+  This moderation list is intentionally kept compact.
+  It catches common abusive/adult terms and simple
+  obfuscation without displaying them to users.
+*/
+
+const badWords = [
+
+  "fuck",
+  "fck",
+  "shit",
+  "bitch",
+  "asshole",
+  "bastard",
+  "motherf",
+  "porn",
+  "xxx",
+  "nude",
+  "naked",
+  "adult",
+  "nsfw",
+
+  "madarch",
+  "bhench",
+  "gaand",
+  "gand",
+  "harami",
+  "kamina",
+  "bhos"
+
+];
+
+
+function normalizeModerationText(text){
+
+  return String(text || "")
+    .toLowerCase()
+
+    .replace(/[@4]/g,"a")
+    .replace(/[3]/g,"e")
+    .replace(/[1!]/g,"i")
+    .replace(/[0]/g,"o")
+    .replace(/[$5]/g,"s")
+    .replace(/[7]/g,"t")
+
+    .replace(/[^a-z0-9\u0900-\u097f]/g,"");
+
+}
+
+
+function containsBadLanguage(text){
+
+  const original =
+    String(text || "")
+      .toLowerCase();
+
+
+  const normalized =
+    normalizeModerationText(
+      text
+    );
+
+
+  return badWords.some(
+    word=>{
+
+      const w =
+        word.toLowerCase();
+
+      const wn =
+        normalizeModerationText(
+          word
+        );
+
+      return (
+        original.includes(w) ||
+        normalized.includes(wn)
+      );
+
+    }
+  );
+
+}
+
+
+function showWarning(
+  id,
+  text
+){
+
+  const el =
+    document.getElementById(id);
+
+  el.textContent =
+    text;
+
+  el.style.display =
+    "block";
+
+}
+
+
+function hideWarning(id){
+
+  const el =
+    document.getElementById(id);
+
+  el.textContent =
+    "";
+
+  el.style.display =
+    "none";
+
+}
+
+
+function rejectBadLanguage(
+  text,
+  warningId
+){
+
+  if(
+    containsBadLanguage(text)
+  ){
+
+    showWarning(
+      warningId,
+      "🚫 Clean language only! Credits were NOT deducted."
+    );
+
+    return true;
+
+  }
+
+  return false;
+
+}
+
+
+/* =========================================================
+   CREDIT SYSTEM
+========================================================= */
+
+function spendCredits(amount){
+
+  const u =
+    currentUser();
+
+
+  if(!u){
+
+    toast(
+      "⚠️ Please Login."
+    );
+
+    return false;
+
+  }
+
+
+  if(u.blocked){
+
+    toast(
+      "🚫 Account blocked."
+    );
+
+    return false;
+
+  }
+
+
+  if(
+    u.credits < amount
+  ){
+
+    toast(
+      "❌ Not enough credits. Claim your +70 daily bonus."
+    );
+
+    return false;
+
+  }
+
+
+  u.credits -= amount;
+
+  saveUsers();
+
+  updateCredits();
+
+  return true;
+
+}
+
+
+/* =========================================================
+   TOPIC HELPERS
+========================================================= */
+
+function topicWords(topic){
+
+  return cleanText(topic)
+    .replace(/[^\w\s-]/g," ")
+    .split(/\s+/)
+    .filter(Boolean);
+
+}
+
+
+function topicName(topic){
+
+  return cleanText(topic);
+
+}
+
+
+/* =========================================================
+   TITLE GENERATOR
+========================================================= */
+
+const titleHooks = [
+
+  "I Tried Drawing",
+  "How I Draw",
+  "Can You Draw",
+  "Watch Me Draw",
+  "I Finally Drew",
+  "Easy Way To Draw",
+  "Drawing",
+  "Learn To Draw",
+  "My Best",
+  "Let's Draw",
+  "Beginner Tries",
+  "From Sketch To",
+  "Step By Step",
+  "Secret To Drawing",
+  "I Challenged Myself",
+  "You Need To See This",
+  "This Drawing",
+  "Quick Tutorial",
+  "Simple Trick For",
+  "Ultimate Guide To"
+
+];
+
+
+const titleEndings = [
+
+  "Like A Pro 🔥",
+  "In Easy Steps ✏️",
+  "For Beginners 🎨",
+  "Without Any Fear 😱",
+  "In 5 Minutes ⏱️",
+  "Using Simple Tricks 💥",
+  "Step By Step 🚀",
+  "My New Drawing ❤️",
+  "Tutorial For Beginners",
+  "That Actually Works",
+  "From Zero To Amazing",
+  "With Pencil Only ✏️",
+  "Easy Anime Art",
+  "Drawing Challenge 🔥",
+  "Full Process",
+  "You Can Try This",
+  "Super Easy Method",
+  "My Latest Artwork",
+  "Beginner Friendly",
+  "Don't Miss This 👀"
+
+];
+
+
+const titleStyles = [
+
+  "🔥",
+  "⚡",
+  "🎨",
+  "✏️",
+  "😱",
+  "🚀",
+  "👀",
+  "💥",
+  "❤️",
+  "✨"
+
+];
+
+
+function generateTitles(){
+
+  const rawTopic =
+    cleanText(
+      document.getElementById(
+        "titleTopic"
+      ).value
+    );
+
+
+  const style =
+    document.getElementById(
+      "titleStyle"
+    ).value;
+
+
+  const lang =
+    document.getElementById(
+      "titleLang"
+    ).value;
+
+
+  hideWarning(
+    "titleWarning"
+  );
+
+
+  if(!rawTopic){
+
+    showWarning(
+      "titleWarning",
+      "⚠️ Please enter a topic."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    rejectBadLanguage(
+      rawTopic,
+      "titleWarning"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  if(!spendCredits(10)){
+
+    return;
+
+  }
+
+
+  const u =
+    currentUser();
+
+
+  const topic =
+    rawTopic;
+
+
+  const results = [];
+
+
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
+
+    const a =
+      titleHooks[
+        (u.ti+i) %
+        titleHooks.length
+      ];
+
+
+    const b =
+      titleEndings[
+        (u.ti*3+i*5) %
+        titleEndings.length
+      ];
+
+
+    const emoji =
+      titleStyles[
+        (u.ti+i*2) %
+        titleStyles.length
+      ];
+
+
+    let text = "";
+
+
+    if(lang === "English"){
+
+      text =
+        `${emoji} ${a} ${topic} ${b}`;
+
+    }
+
+    else if(lang === "Hindi"){
+
+      text =
+        `${emoji} ${topic} Drawing Ka Easy Tarika ${b}`;
+
+    }
+
+    else{
+
+      text =
+        `${emoji} ${a} ${topic} ${b}`;
+
+    }
+
+
+    if(
+      style === "Challenge"
+    ){
+
+      text =
+        `${emoji} I Challenged Myself: ${topic} ${b}`;
+
+    }
+
+
+    if(
+      style === "Curious"
+    ){
+
+      text =
+        `${emoji} Can You Guess How I Drew ${topic}? ${b}`;
+
+    }
+
+
+    if(
+      style === "Short & Powerful"
+    ){
+
+      text =
+        `${emoji} ${topic} — ${b}`;
+
+    }
+
+
+    results.push(
+      text
+    );
+
+  }
+
+
+  u.ti =
+    (u.ti+5) %
+    8000;
+
+
+  saveUsers();
+
+
+  renderResults(
+    "titleResults",
+    results
+  );
+
+
+  if(
+    document.getElementById(
+      "musicToggle"
+    ).checked
+  ){
+
+    setMusicState(true);
+
+  }
+
+}
+
+
+/* =========================================================
+   HASHTAGS
+========================================================= */
+
+const baseTags = [
+
+  "drawing",
+  "art",
+  "artist",
+  "drawingtutorial",
+  "arttutorial",
+  "sketch",
+  "sketching",
+  "pencilart",
+  "anime",
+  "animeart",
+  "animedrawing",
+  "drawingideas",
+  "howtodraw",
+  "artwork",
+  "creative",
+  "artistsonyoutube",
+  "youtubeshorts",
+  "shorts",
+  "viral",
+  "trending",
+  "beginnerart",
+  "learnart",
+  "arttips",
+  "drawingtips",
+  "pencildrawing",
+  "digitalart",
+  "illustration",
+  "mangaart",
+  "otakuart",
+  "artreels"
+
+];
+
+
+function hashtagTopic(topic){
+
+  return topicWords(topic)
+    .map(
+      w=>
+        w.replace(
+          /[^a-zA-Z0-9]/g,
+          ""
+        )
+    )
+    .filter(Boolean)
+    .map(
+      w=>
+        w.toLowerCase() +
+        "drawing"
+    );
+
+}
+
+
+function generateHashtags(){
+
+  const topic =
+    cleanText(
+      document.getElementById(
+        "hashTopic"
+      ).value
+    );
+
+
+  hideWarning(
+    "hashWarning"
+  );
+
+
+  if(!topic){
+
+    showWarning(
+      "hashWarning",
+      "⚠️ Please enter a topic."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    rejectBadLanguage(
+      topic,
+      "hashWarning"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  if(!spendCredits(10)){
+
+    return;
+
+  }
+
+
+  const u =
+    currentUser();
+
+
+  const topicTags =
+    hashtagTopic(topic);
+
+
+  const results = [];
+
+
+  for(
+    let set=0;
+    set<5;
+    set++
+  ){
+
+    const arr = [];
+
+
+    topicTags.forEach(
+      x=>arr.push(x)
+    );
+
+
+    for(
+      let i=0;
+      i<12;
+      i++
+    ){
+
+      const index =
+        (
+          u.hi +
+          set*7 +
+          i*3
+        ) %
+        baseTags.length;
+
+
+      arr.push(
+        baseTags[index]
+      );
+
+    }
+
+
+    arr.push("shorts");
+
+    arr.push("youtube");
+
+
+    const unique =
+      [...new Set(arr)];
+
+
+    results.push(
+      unique
+        .slice(0,16)
+        .map(
+          x=>"#"+x
+        )
+        .join(" ")
+    );
+
+  }
+
+
+  u.hi =
+    (u.hi+5) %
+    10000;
+
+
+  saveUsers();
+
+
+  renderResults(
+    "hashResults",
+    results
+  );
+
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+const descOpeners = [
+
+  "In this video, we are going to draw",
+  "Today I am showing you how to draw",
+  "Let's create an amazing drawing of",
+  "Welcome back! Today we are drawing",
+  "Here is a simple tutorial for",
+  "In this easy drawing tutorial, we will create",
+  "Today we are learning to draw",
+  "Watch the complete process of drawing",
+  "This beginner-friendly video teaches you to draw",
+  "Let's turn a simple sketch into"
+
+];
+
+
+const descClosers = [
+
+  "Subscribe for more drawing tutorials! ✨",
+  "Like the video if you enjoyed it and subscribe! 🔥",
+  "Comment what I should draw next! 🎨",
+  "Share this with another artist! ❤️",
+  "More anime and art tutorials are coming soon! 🚀",
+  "Keep practicing and keep creating! ✏️",
+  "Thanks for watching! See you in the next drawing.",
+  "Don't forget to support the channel with a like!",
+  "Tell me your next drawing challenge in the comments.",
+  "New drawing videos are coming regularly!"
+
+];
+
+
+function generateDescriptions(){
+
+  const topic =
+    cleanText(
+      document.getElementById(
+        "descTopic"
+      ).value
+    );
+
+
+  const details =
+    cleanText(
+      document.getElementById(
+        "descDetails"
+      ).value
+    );
+
+
+  hideWarning(
+    "descWarning"
+  );
+
+
+  if(!topic){
+
+    showWarning(
+      "descWarning",
+      "⚠️ Please enter a video topic."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    rejectBadLanguage(
+      topic+" "+details,
+      "descWarning"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  if(!spendCredits(10)){
+
+    return;
+
+  }
+
+
+  const u =
+    currentUser();
+
+
+  const results = [];
+
+
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
+
+    const opener =
+      descOpeners[
+        (u.di+i) %
+        descOpeners.length
+      ];
+
+
+    const closer =
+      descClosers[
+        (u.di*2+i) %
+        descClosers.length
+      ];
+
+
+    const extra =
+      details ||
+      "This video is made for beginners who want to improve their drawing skills.";
+
+
+    const text =
+      `${opener} ${topic}.
+
+🎨 ${extra}
+
+✏️ Follow the steps carefully and practice along with me.
+
+💡 If you enjoyed the drawing, leave a like and subscribe for more art content.
+
+${closer}
+
+#drawing #art #animeart #drawingtutorial #shorts`;
+
+
+    results.push(
+      text
+    );
+
+  }
+
+
+  u.di =
+    (u.di+5) %
+    10000;
+
+
+  saveUsers();
+
+
+  renderResults(
+    "descResults",
+    results
+  );
+
+}
+
+
+/* =========================================================
+   THUMBNAILS
+========================================================= */
+
+const thumbIdeas = [
+
+  "Close-up of the finished drawing + big reaction emoji + 3-word text",
+  "Before vs After layout with the sketch on left and final art on right",
+  "Huge character face on one side + your pencil on the other",
+  "Zoom into the eyes with a bright circle around the important detail",
+  "Show rough sketch and final drawing with a giant arrow",
+  "Use a clean white background with the artwork taking most of the screen",
+  "Character + bold question text: CAN I DRAW THIS?",
+  "Split thumbnail into Step 1 and Final Result",
+  "Extreme close-up of the best part of the artwork",
+  "Show the drawing process with a surprised emoji",
+  "Use three small progress stages and one large final artwork",
+  "Put the reference and your drawing side by side",
+  "Use a giant pencil graphic pointing toward the finished eye",
+  "Show a dramatic zoom of the final result",
+  "Beginner sketch vs finished anime artwork comparison",
+  "Put the character in the center and a short challenge phrase above",
+  "Highlight one difficult drawing area with a circle",
+  "Show the first line and final artwork together",
+  "Use a clean composition with one big face and minimal text",
+  "Show your hand drawing the final detail"
+
+];
+
+
+function generateThumbnails(){
+
+  const topic =
+    cleanText(
+      document.getElementById(
+        "thumbTopic"
+      ).value
+    );
+
+
+  hideWarning(
+    "thumbWarning"
+  );
+
+
+  if(!topic){
+
+    showWarning(
+      "thumbWarning",
+      "⚠️ Please enter a topic."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    rejectBadLanguage(
+      topic,
+      "thumbWarning"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const u =
+    currentUser();
+
+
+  if(!u){
+
+    toast(
+      "⚠️ Please Login."
+    );
+
+    return;
+
+  }
+
+
+  if(u.blocked){
+
+    toast(
+      "🚫 Account blocked."
+    );
+
+    return;
+
+  }
+
+
+  const results = [];
+
+
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
+
+    const idea =
+      thumbIdeas[
+        (u.thi+i) %
+        thumbIdeas.length
+      ];
+
+
+    results.push(
+      `🎯 ${topic}: ${idea}`
+    );
+
+  }
+
+
+  u.thi =
+    (u.thi+5) %
+    10000;
+
+
+  saveUsers();
+
+
+  renderResults(
+    "thumbResults",
+    results
+  );
+
+}
+
+
+/* =========================================================
+   SEO PRO
+========================================================= */
+
+const seoHooks = [
+
+  "Easy",
+  "Best",
+  "Ultimate",
+  "Beginner Friendly",
+  "Step By Step",
+  "Simple",
+  "Fast",
+  "Complete",
+  "Amazing",
+  "Powerful"
+
+];
+
+
+const seoKeywords = [
+
+  "drawing tutorial",
+  "how to draw",
+  "anime drawing",
+  "pencil drawing",
+  "easy drawing",
+  "beginner drawing",
+  "art tutorial",
+  "drawing tips",
+  "sketch tutorial",
+  "anime art",
+  "pencil art",
+  "drawing for beginners",
+  "learn drawing",
+  "art tips",
+  "sketching tutorial",
+  "YouTube drawing",
+  "viral drawing",
+  "drawing shorts",
+  "anime art tutorial",
+  "step by step drawing"
+
+];
+
+
+const seoTemplates = [
+
+  "Learn {topic} with this {hook} {keyword} tutorial.",
+  "Want to draw {topic}? Try this {hook} method.",
+  "This video shows a {hook} way to create {topic}.",
+  "Follow this {hook} guide to improve your {topic} drawing.",
+  "Discover an easy process for drawing {topic} using {keyword}.",
+  "Practice {topic} with this simple step-by-step tutorial.",
+  "Improve your art skills with this {hook} {topic} tutorial.",
+  "Create {topic} from a basic sketch with this beginner guide.",
+  "A complete drawing guide for {topic} and art beginners.",
+  "Turn your sketch into {topic} with these useful drawing tips."
+
+];
+
+
+function generateSEO(){
+
+  const topic =
+    cleanText(
+      document.getElementById(
+        "seoTopic"
+      ).value
+    );
+
+
+  const keyword =
+    cleanText(
+      document.getElementById(
+        "seoKeyword"
+      ).value
+    );
+
+
+  hideWarning(
+    "seoWarning"
+  );
+
+
+  if(!topic){
+
+    showWarning(
+      "seoWarning",
+      "⚠️ Please enter a main topic."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    rejectBadLanguage(
+      topic+" "+keyword,
+      "seoWarning"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  if(!spendCredits(25)){
+
+    return;
+
+  }
+
+
+  const u =
+    currentUser();
+
+
+  const results = [];
+
+
+  for(
+    let pack=0;
+    pack<2;
+    pack++
+  ){
+
+    const hook =
+      seoHooks[
+        (u.si+pack) %
+        seoHooks.length
+      ];
+
+
+    const key =
+      keyword ||
+      seoKeywords[
+        (u.si+pack*7) %
+        seoKeywords.length
+      ];
+
+
+    const template =
+      seoTemplates[
+        (u.si*3+pack) %
+        seoTemplates.length
+      ];
+
+
+    const description =
+      template
+        .replace(
+          /\{topic\}/g,
+          topic
+        )
+        .replace(
+          /\{hook\}/g,
+          hook
+        )
+        .replace(
+          /\{keyword\}/g,
+          key
+        );
+
+
+    const title =
+      `${hook} ${topic} | ${key} 🔥`;
+
+
+    const tags = [
+
+      topic,
+      key,
+      "drawing",
+      "art",
+      "animeart",
+      "drawingtutorial",
+      "howtodraw",
+      "shorts",
+      "youtube"
+
+    ].join(", ");
+
+
+    results.push(
+
+`🚀 SEO PACK ${pack+1}
+
+📌 TITLE:
+${title}
+
+📝 DESCRIPTION:
+${description}
+
+🔑 KEYWORDS:
+${key}, ${topic}, drawing tutorial, anime drawing, easy drawing, beginner art, pencil drawing
+
+#️⃣ HASHTAGS:
+#${topic.replace(/\s+/g,"")}
+#drawing #art #animeart #drawingtutorial #howtodraw #shorts #youtube
+
+🏷️ TAGS:
+${tags}`
+
+    );
+
+  }
+
+
+  u.si =
+    (u.si+2) %
+    2000;
+
+
+  saveUsers();
+
+
+  renderResults(
+    "seoResults",
+    results
+  );
+
+}
+
+
+/* =========================================================
+   RESULT RENDER
+========================================================= */
+
+function renderResults(
+  id,
+  results
+){
+
+  const box =
+    document.getElementById(id);
+
+
+  box.innerHTML = "";
+
+
+  results.forEach(
+    (text,index)=>{
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "result-card";
+
+
+      card.style.animationDelay =
+        (index*.07)+"s";
+
+
+      const content =
+        document.createElement(
+          "div"
+        );
+
+
+      content.className =
+        "result-text";
+
+
+      content.textContent =
+        text;
+
+
+      const copy =
+        document.createElement(
+          "button"
+        );
+
+
+      copy.className =
+        "copy-btn";
+
+
+      copy.textContent =
+        "📋 Copy";
+
+
+      copy.onclick =
+        async()=>{
+
+          try{
+
+            await navigator.clipboard
+              .writeText(text);
+
+          }catch(e){
+
+            const area =
+              document.createElement(
+                "textarea"
+              );
+
+            area.value =
+              text;
+
+            document.body
+              .appendChild(area);
+
+            area.select();
+
+            document.execCommand(
+              "copy"
+            );
+
+            area.remove();
+
+          }
+
+
+          copy.textContent =
+            "✅ Copied!";
+
+
+          copy.classList.add(
+            "copied"
+          );
+
+
+          toast(
+            "📋 Copied!"
+          );
+
+
+          setTimeout(
+            ()=>{
+
+              copy.textContent =
+                "📋 Copy";
+
+              copy.classList.remove(
+                "copied"
+              );
+
+            },
+            1000
+          );
+
+        };
+
+
+      card.appendChild(
+        content
+      );
+
+      card.appendChild(
+        copy
+      );
+
+      box.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   OWNER PANEL
+========================================================= */
+
+function renderOwner(){
+
+  if(!isOwner()){
+
+    go("ownerLogin");
+
+    return;
+
+  }
+
+
+  const all =
+    Object.values(users);
+
+
+  const totalUsers =
+    all.length;
+
+
+  const totalCredits =
+    all.reduce(
+      (sum,u)=>
+        sum +
+        (Number(u.credits)||0),
+      0
+    );
+
+
+  const blocked =
+    all.filter(
+      u=>u.blocked
+    ).length;
+
+
+  const active =
+    totalUsers-blocked;
+
+
+  document.getElementById(
+    "statUsers"
+  ).textContent =
+    totalUsers;
+
+
+  document.getElementById(
+    "statCredits"
+  ).textContent =
+    totalCredits;
+
+
+  document.getElementById(
+    "statBlocked"
+  ).textContent =
+    blocked;
+
+
+  document.getElementById(
+    "statActive"
+  ).textContent =
+    active;
+
+
+  renderOwnerUsers();
+
+}
+
+
+function renderOwnerUsers(){
+
+  if(!isOwner()){
+
+    return;
+
+  }
+
+
+  const all =
+    Object.values(users);
+
+
+  const search =
+    cleanText(
+      document.getElementById(
+        "ownerUserSearch"
+      )?.value
+    ).toLowerCase();
+
+
+  const filtered =
+    all.filter(
+      u=>{
+
+        const name =
+          String(
+            u.name || ""
+          ).toLowerCase();
+
+        const email =
+          String(
+            u.email || ""
+          ).toLowerCase();
+
+        return (
+          !search ||
+          name.includes(search) ||
+          email.includes(search)
+        );
+
+      }
+    );
+
+
+  const box =
+    document.getElementById(
+      "ownerUsers"
+    );
+
+
+  box.innerHTML = "";
+
+
+  if(!all.length){
+
+    box.innerHTML =
+
+      `<p style="color:#aaaac5;margin-top:15px">
+        👥 No users yet.
+      </p>`;
+
+    return;
+
+  }
+
+
+  if(!filtered.length){
+
+    box.innerHTML =
+
+      `<p style="color:#aaaac5;margin-top:15px">
+        🔎 No matching user found.
+      </p>`;
+
+    return;
+
+  }
+
+
+  filtered.forEach(
+    u=>{
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "owner-user";
+
+
+      const info =
+        document.createElement(
+          "div"
+        );
+
+
+      info.className =
+        "owner-user-info";
+
+
+      const status =
+        u.blocked
+          ? "🚫 BLOCKED"
+          : "🟢 ACTIVE";
+
+
+      info.innerHTML = `
+
+        <b>
+          👤 ${escapeHTML(u.name || "User")}
+        </b>
+
+        <small>
+          📧 ${escapeHTML(u.email || "")}
+        </small>
+
+        <small>
+          💳 Credits:
+          ${Number(u.credits)||0}
+        </small>
+
+        <small>
+          📅 Created:
+          ${formatDate(u.createdAt)}
+        </small>
+
+        <small
+          class="${
+            u.blocked
+              ? "status-blocked"
+              : "status-active"
+          }">
+
+          ${status}
+
+        </small>
+
+      `;
+
+
+      const controls =
+        document.createElement(
+          "div"
+        );
+
+
+      controls.className =
+        "owner-controls";
+
+
+      /* +50 */
+
+      const add =
+        document.createElement(
+          "button"
+        );
+
+      add.className =
+        "green-btn";
+
+      add.textContent =
+        "+50 💳";
+
+      add.onclick =
+        ()=>ownerAddCredits(
+          u.email,
+          50
+        );
+
+
+      /* +100 */
+
+      const add100 =
+        document.createElement(
+          "button"
+        );
+
+      add100.className =
+        "green-btn";
+
+      add100.textContent =
+        "+100 💳";
+
+      add100.onclick =
+        ()=>ownerAddCredits(
+          u.email,
+          100
+        );
+
+
+      /* -50 */
+
+      const remove =
+        document.createElement(
+          "button"
+        );
+
+      remove.className =
+        "danger-btn";
+
+      remove.textContent =
+        "-50 💳";
+
+      remove.onclick =
+        ()=>ownerAddCredits(
+          u.email,
+          -50
+        );
+
+
+      /* BLOCK */
+
+      const block =
+        document.createElement(
+          "button"
+        );
+
+
+      block.className =
+        u.blocked
+          ? "green-btn"
+          : "danger-btn";
+
+
+      block.textContent =
+        u.blocked
+          ? "Unblock"
+          : "Block";
+
+
+      block.onclick =
+        ()=>toggleBlock(
+          u.email
+        );
+
+
+      controls.appendChild(
+        add
+      );
+
+      controls.appendChild(
+        add100
+      );
+
+      controls.appendChild(
+        remove
+      );
+
+      controls.appendChild(
+        block
+      );
+
+
+      row.appendChild(
+        info
+      );
+
+      row.appendChild(
+        controls
+      );
+
+
+      box.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   OWNER CREDIT CONTROL
+========================================================= */
+
+function ownerAddCredits(
+  email,
+  amount
+){
+
+  if(!isOwner()){
+
+    return;
+
+  }
+
+
+  if(!users[email]){
+
+    return;
+
+  }
+
+
+  users[email].credits =
+    Math.max(
+      0,
+      (Number(
+        users[email].credits
+      ) || 0) + amount
+    );
+
+
+  saveUsers();
+
+
+  renderOwner();
+
+
+  if(
+    email === currentEmail
+  ){
+
+    updateCredits();
+
+  }
+
+
+  toast(
+
+    amount >= 0
+
+      ? `💳 +${amount} credits added`
+
+      : `💳 ${Math.abs(amount)} credits removed`
+
+  );
+
+}
+
+
+/* =========================================================
+   OWNER BLOCK
+========================================================= */
+
+function toggleBlock(
+  email
+){
+
+  if(!isOwner()){
+
+    return;
+
+  }
+
+
+  if(!users[email]){
+
+    return;
+
+  }
+
+
+  users[email].blocked =
+    !users[email].blocked;
+
+
+  saveUsers();
+
+
+  renderOwner();
+
+
+  if(
+    email === currentEmail &&
+    users[email].blocked
+  ){
+
+    toast(
+      "🚫 Account blocked."
+    );
+
+
+    setTimeout(
+      logout,
+      800
+    );
+
+  }else{
+
+    toast(
+      users[email].blocked
+        ? "🚫 User blocked."
+        : "🟢 User unblocked."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatDate(
+  value
+){
+
+  if(!value){
+
+    return "Unknown";
+
+  }
+
+
+  try{
+
+    return new Date(
+      value
+    ).toLocaleDateString(
+      "en-IN",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      }
+    );
+
+  }catch(e){
+
+    return "Unknown";
+
+  }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(
+  text
+){
+
+  return String(text)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================================================
+   OWNER LOGOUT
+========================================================= */
+
+function ownerLogout(){
+
+  stopMusic();
+
+  localStorage.removeItem(
+    OWNER_KEY
+  );
+
+
+  currentEmail = "";
+
+  localStorage.removeItem(
+    CURRENT_KEY
+  );
+
+
+  showAuth();
+
+  showLogin();
+
+
+  toast(
+    "👋 Owner logged out."
+  );
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+window.addEventListener(
+  "load",
+  ()=>{
+
+    initSoundUI();
+
+    setMusicState(
+      musicEnabled
+    );
+
+
+    if(
+      isOwner()
+    ){
+
+      openOwnerApp();
+
+      return;
+
+    }
+
+
+    if(
+      currentEmail &&
+      users[currentEmail]
+    ){
+
+      if(
+        users[currentEmail].blocked
+      ){
+
+        localStorage.removeItem(
+          CURRENT_KEY
+        );
+
+        currentEmail = "";
+
+        showAuth();
+
+        showLogin();
+
+      }else{
+
+        openApp();
+
+      }
+
+    }else{
+
+      showAuth();
+
+      showSignup();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
